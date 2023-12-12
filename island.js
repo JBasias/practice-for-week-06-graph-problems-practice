@@ -1,4 +1,19 @@
-function getNeighbors(row, col, graph) {
+function getNeighbors(x, y, G)
+{
+
+  let n= G.length; let m=G[0].length;
+
+  let ret= [];
+
+  if(x>0 && G[x-1][y] === 1) ret.push([x-1,y]);
+  if(x<n-1  && G[x+1][y] === 1) ret.push([x+1,y]);
+  if(y>0 && G[x][y-1] === 1) ret.push([x,y-1]);
+  if(y<m-1 && G[x][y+1] === 1) ret.push([x,y+1]);
+
+
+  //console.log(ret);
+
+  return ret;
 
   // Check top
 
@@ -14,7 +29,29 @@ function getNeighbors(row, col, graph) {
 }
 
 
-function islandSize(row, col, graph) {
+function islandSize(x, y, G) {
+
+
+  let m=G[0].length; let B = new Set();
+  let Q = [[x,y]]; let cur; let ret=0;
+  B.has(x*m + y);
+
+  while(Q.length != 0)
+  {
+    cur = Q.shift();
+    ret++;
+
+    for(const v of  getNeighbors(cur[0], cur[1], G))
+    {
+       if(!B.has(v[0]*m + v[1]))
+       {
+         B.add(v[0]*m + v[1]);
+         Q.push(v);
+       }
+    }
+  }
+
+  return ret-1;
 
   // Create a visited set to store visited nodes
 
